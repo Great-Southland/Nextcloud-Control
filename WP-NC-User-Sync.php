@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name:  WP-NC-User-Sync
-Description:  Automatically update NextCloud users when editing in Wordpress
+Description:  Automatically Update NextCloud Users And Groups When Users and Roles are changed in Wordpress
 Plugin URI:   WP-NC-User-Sync
 Author:       David Forg
 Version:      0.1
