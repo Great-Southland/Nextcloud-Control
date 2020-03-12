@@ -26,32 +26,8 @@ function wnus_create_group() {
   		}
 
 
-  		// Get Database options
-  		$options = get_option( 'wnus_options', wnus_options_default() );
+          $nc_response = nc_request('POST', '/ocs/v1.php/cloud/groups?groupid='. $new_role);
 
-  		// Get details from Database
-  		$nextcloud_server_url = isset( $options['nextcloud_server_url']) ? sanitize_text_field( $options['nextcloud_server_url'] ) : '';
-  		$nextcloud_server_username = isset( $options['nextcloud_server_username']) ? sanitize_text_field( $options['nextcloud_server_username'] ) : '';
-  		$nextcloud_server_pass = isset( $options['nextcloud_server_pass']) ? sanitize_text_field( $options['nextcloud_server_pass'] ) : '';
-
-  		// HTTP request details
-  		$nc_user_login = $user_login;
-
-  		// URLs for updating email and display name
-  		$url = 'https://'. $nextcloud_server_username .':'. $nextcloud_server_pass .'@'. $nextcloud_server_url .'/ocs/v1.php/cloud/groups?groupid='. $new_role;
-
-  		// Args for HTTP Request
-  		$args = array( 'method' => 'POST',
-  			              'timeout' => 40,
-  			              'headers' => array(
-  			                'OCS-APIRequest' => 'true',
-  			                'Content-Type' => 'application/x-www-form-urlencoded',),
-  			            );
-
-
-
-  			// Update NextCloud User
-  					$nc_response = wp_remote_request( $url, $args );
 
   				 // Get Response code and message if HTTP request did not return an error
   				 if (!is_wp_error($nc_response)) {
@@ -190,34 +166,8 @@ function wnus_delete_group() {
 
 
     if ($wp_role != 'Administrator') {
-
-
-  		// Get Database options
-  		$options = get_option( 'wnus_options', wnus_options_default() );
-
-  		// Get details from Database
-  		$nextcloud_server_url = isset( $options['nextcloud_server_url']) ? sanitize_text_field( $options['nextcloud_server_url'] ) : '';
-  		$nextcloud_server_username = isset( $options['nextcloud_server_username']) ? sanitize_text_field( $options['nextcloud_server_username'] ) : '';
-  		$nextcloud_server_pass = isset( $options['nextcloud_server_pass']) ? sanitize_text_field( $options['nextcloud_server_pass'] ) : '';
-
-  		// HTTP request details
-  		$nc_user_login = $user_login;
-
-  		// URLs for updating email and display name
-  		$url = 'https://'. $nextcloud_server_username .':'. $nextcloud_server_pass .'@'. $nextcloud_server_url .'/ocs/v1.php/cloud/groups/'. $wp_role;
-
-  		// Args for HTTP Request
-  		$args = array( 'method' => 'DELETE',
-  			              'timeout' => 40,
-  			              'headers' => array(
-  			                'OCS-APIRequest' => 'true',
-  			                'Content-Type' => 'application/x-www-form-urlencoded',),
-  			            );
-
-
-
-  			// Update NextCloud User
-  					$nc_response = wp_remote_request( $url, $args );
+          // HTTP Request
+          $nc_response = nc_request('DELETE', '/ocs/v1.php/cloud/groups/'. $wp_role);
 
   				 // Get Response code and message if HTTP request did not return an error
   				 if (!is_wp_error($nc_response)) {

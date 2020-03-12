@@ -78,6 +78,16 @@ function wnus_add_menus() {
 		'wnus_create_user_form'
 	);
 
+	// Add folder manager submenu
+	add_submenu_page(
+		'wnus',
+		'Folder Manager',
+		'Folder Manager',
+		'manage_options',
+		'folder-manager',
+		'wnus_folder_manager_form'
+	);
+
 
 
 }

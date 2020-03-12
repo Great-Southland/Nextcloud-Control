@@ -71,12 +71,6 @@ add_shortcode('create-user', 'wnus_create_user_form_frontend');
 
 // Add Edit User Page
 function wnus_edit_user_form_frontend() {
-  // Function to Get user roles by id
-		function get_user_roles_edit($user_id) {
-			$user_meta=get_userdata($user_id);
-			$user_roles=$user_meta->roles;
-			return $user_roles;
-		}
 // Set variables
 		if (!isset($_GET['email-login']) && !isset($_GET['display-name']) && !isset($_GET['user-email']) && !isset($_GET['user-password']) && !isset($_GET['user-id'])) {
 			$user_info = wp_get_current_user();
@@ -183,49 +177,7 @@ add_shortcode('edit-user', 'wnus_edit_user_form_frontend');
 
 
 function wnus_user_form_frontend() {
-	// ----------------- Functions ---------------
-	// Get user roles by id
-	if( !function_exists('get_user_roles')){
-			function get_user_roles($user_id) {
-				$user_meta=get_userdata($user_id);
-				$user_roles=$user_meta->roles;
-				return $user_roles;
-			}
-		}
-
-		// Function to Get Leader roles of current user
-		if( !function_exists('array_contains')){
-			function array_contains($array, $filter){
-				// Get current users Leader Roles
-				$filtered_array = array_filter($array, function($array_element) use($filter){
-						if (strpos($array_element, $filter) !== false) {
-							return true;
-						} else {
-							return false;
-						}
-				 });
-				 return $filtered_array;
-			 }
-		 }
-
-		 // Get array of wp roles
-		 if( !function_exists('get_roles')){
-			 function get_roles(){
-				 if (!function_exists('get_editable_roles')) {
-					 require_once(ABSPATH . '/wp-admin/includes/user.php');
-				 }
-					 $roles_s = '';
-					 $wnus_editable_roles = get_editable_roles();
-					 foreach ($wnus_editable_roles as $role => $details) {
-							 $roles_s .= $role .'|';
-					 }
-					 $roles_s = rtrim($roles_s, '|');
-					 $roles_a = explode('|', $roles_s);
-					 return $roles_a;
-				 }
-			 }
-
-		// -------------------------- Get Current User Info ------------------------
+	//-------------------- Get Current User Info ------------------------
 		// Get Current Users Roles
 		$current_user_info = wp_get_current_user();
 		$current_user_id = $current_user_info->ID;
@@ -410,52 +362,6 @@ add_shortcode('user-form', 'wnus_user_form_frontend');
 
 
 function wnus_group_form_frontend() {
-	// ----------------- Functions ---------------
-	// Function to Get Leader roles of current user
-	if( !function_exists('array_contains')){
-		function array_contains($array, $filter){
-			// Get current users Leader Roles
-			$filtered_array = array_filter($array, function($array_element) use($filter){
-					if (strpos($array_element, $filter) !== false) {
-						return true;
-					} else {
-						return false;
-					}
-			 });
-			 return $filtered_array;
-		 }
-	 }
-
-		 // Get user Roles By ID
-		 if( !function_exists('get_users_by_role')){
-			 function get_users_by_role($role, $orderby, $order) {
-					 $args = array(
-							 'role'    => $role,
-							 'orderby' => $orderby,
-							 'order'   => $order
-					 );
-					 $users = get_users( $args );
-					 return $users;
-			 }
-		 }
-
-		 // Get array of wp roles
-		 if( !function_exists('get_roles')){
-			 function get_roles(){
-				 if (!function_exists('get_editable_roles')) {
-					 require_once(ABSPATH . '/wp-admin/includes/user.php');
-				 }
-
-					 $roles_s = '';
-					 $wnus_editable_roles = get_editable_roles();
-					 foreach ($wnus_editable_roles as $role => $details) {
-							 $roles_s .= $role .'|';
-					 }
-					 $roles_s = rtrim($roles_s, '|');
-					 $roles_a = explode('|', $roles_s);
-					 return $roles_a;
-				 }
-			 }
 
 		// -------------------------- Get Current User Info ------------------------
 		// Get Current Users Roles

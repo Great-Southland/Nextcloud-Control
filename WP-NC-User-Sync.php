@@ -19,7 +19,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 }
 
+// ----------------- include plugin dependencies: admin and public ---------------
+	require_once plugin_dir_path( __FILE__ ) . 'includes/core-functions.php';
+	require_once plugin_dir_path( __FILE__ ) . 'includes/form-response/user-group-managment/user-form.php';
+	require_once plugin_dir_path( __FILE__ ) . 'includes/form-response/user-group-managment/group-form.php';
+	require_once plugin_dir_path( __FILE__ ) . 'includes/forms/frontend-forms.php';
 
+	// enqueue styles frontend
+		require_once plugin_dir_path( __FILE__ ) . 'public/enqueue-public.php';
 
 // ----------------- include plugin dependencies: admin only ----------------
 if ( is_admin() ) {
@@ -43,14 +50,7 @@ if ( is_admin() ) {
 
 
 
-// ----------------- include plugin dependencies: admin and public ---------------
-	require_once plugin_dir_path( __FILE__ ) . 'includes/core-functions.php';
-	require_once plugin_dir_path( __FILE__ ) . 'includes/form-response/user-group-managment/user-form.php';
-	require_once plugin_dir_path( __FILE__ ) . 'includes/form-response/user-group-managment/group-form.php';
-	require_once plugin_dir_path( __FILE__ ) . 'includes/forms/frontend-forms.php';
 
-	// enqueue styles frontend
-		require_once plugin_dir_path( __FILE__ ) . 'public/enqueue-public.php';
 
 
 
