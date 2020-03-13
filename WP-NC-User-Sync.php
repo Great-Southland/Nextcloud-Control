@@ -23,6 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/core-functions.php';
 	require_once plugin_dir_path( __FILE__ ) . 'includes/form-response/user-group-managment/user-form.php';
 	require_once plugin_dir_path( __FILE__ ) . 'includes/form-response/user-group-managment/group-form.php';
+	require_once plugin_dir_path( __FILE__ ) . 'includes/form-response/folder-manager.php';
 	require_once plugin_dir_path( __FILE__ ) . 'includes/forms/frontend-forms.php';
 
 	// enqueue styles frontend

@@ -258,6 +258,14 @@ $nc_message = $configData['meta']['message'];
 // HTTP Response Message from NC
 $folders = $configData['data']['element'];
 
+// ----------------------------------- Create Group Select List -----------------------------
+$group_drop_down = '<option value="">Select Group</option>';
+$groups_a = get_roles();
+foreach($groups_a as $group) {
+	$group_capital = ucfirst($group);
+	$group_drop_down .= '<option value="' . $group .'">' . $group_capital .'</option>' . "\n";
+}
+
 //---------------------------------------- Create Folder Rows for Folder-Manager Table --------------------------------------
 // String to hold Table Row HTML
 $folder_tr = '';
@@ -455,7 +463,7 @@ if(array_key_exists(0, $folders)){
 					<?php echo $folder_tr; ?>
 				</tbody>
 			</table>
-			<select required style="margin:10px;display:inline-block;" name="select-action" id="select-action" onchange="optionCheck(this);">
+			<select required style="margin:10px;display:inline-block;" name="action-select" id="select-action" onchange="optionCheck(this);">
 				<option value="">Select Action</option>
 				<option value="delete-folder">Delete Folder/s</option>
 				<option value="give-access">Add Group to Folder</option>
@@ -463,9 +471,10 @@ if(array_key_exists(0, $folders)){
 				<option value="set-quota">Set Quota Limit For Folder</option>
 				<option value="rename-folder">Rename Folder</option>
 			</select>
-			<select id="wp-roles" style="display: none;" name="wp-roles">
-				<?php echo $roles_drop_down; ?>
+			<select id="group-select" name="group-select">
+				<?php echo $group_drop_down; ?>
 			</select>
+			<input class="regular-text" style="width:160px;" placeholder="Enter Value" type="text" size="40" name="text-input" id="text-input">
 
 
 			<input type="hidden" name="action" value="wnus_folder_manager_form_response">
