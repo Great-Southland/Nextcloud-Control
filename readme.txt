@@ -1,7 +1,7 @@
 === Plugin Name ===
 
 Plugin Name:  NextCloud Control
-Description:  Control and sync Nextcloud Users/Groups Group folders and list files uploaded to a folder in Nextcloud
+Description:  Control NextCloud Users/Groups, manage Group Folders and display files in NextCloud directory on a WordPress page.
 Plugin URI:   https://profiles.wordpress.org/specialk
 Author:       Benjamin Forg
 Version:      1.0
