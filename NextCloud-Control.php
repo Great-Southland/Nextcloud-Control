@@ -1,11 +1,11 @@
 <?php
 /*
-Plugin Name:  WP-NC-User-Sync
-Description:  Automatically Update NextCloud Users And Groups When Users and Roles are changed in Wordpress
-Plugin URI:   WP-NC-User-Sync
-Author:       David Forg
-Version:      0.1
-Text Domain:  WP-NC-User-Sync
+Plugin Name:  NextCloud-Control
+Description:  Control NextCloud Users/Groups, manage Group Folders and display files in NextCloud directory on a WordPress page.
+Plugin URI:   NextCloud-Control
+Author:       David Forg & Benjamin Forg
+Version:      0.2
+Text Domain:  NextCloud-Control
 License:      GPL v2 or later
 License URI:  https://www.gnu.org/licenses/gpl-2.0.txt
 */

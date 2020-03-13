@@ -1,9 +1,9 @@
 === Plugin Name ===
 
-Plugin Name:  MyPlugin
-Description:  Example plugin for the video tutorial series, "WordPress: Plugin Development", available at Lynda.com.
+Plugin Name:  NextCloud Control
+Description:  Control NextCloud Users/Groups, manage Group Folders and display files in NextCloud directory on a WordPress page.
 Plugin URI:   https://profiles.wordpress.org/specialk
-Author:       Jeff Starr
+Author:       Benjamin Forg
 Version:      1.0
 Text Domain:  myplugin
 Domain Path:  /languages
