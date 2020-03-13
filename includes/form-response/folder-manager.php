@@ -32,14 +32,15 @@ function wnus_folder_manager() {
 		}
 
 
+		foreach ($variable as $value) {
+			// code...
+		}
 
 
 
 
 
 
-  	// Get checked users
-  	$checked_folders = get_checked_folders();
   	//Get selected Action
   	$select_action = $_POST['action-select'];
   	$group_select = isset($_POST['group-select']) ? $_POST['group-select'] : '';

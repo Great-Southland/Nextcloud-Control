@@ -348,7 +348,7 @@ if(array_key_exists(0, $folders)){
 				$folder_group_permissions_str .= ucfirst($permissions) .', ';
 		}
 		$folder_tr .= '<tr>
-								<td class="folder-checkbox"><input type="checkbox" name="folder-id-|'. $folder_id .'"></td>
+								<td class="folder-checkbox"><input type="checkbox" name="'. $folder_id .'"></td>
 								<td class="folder_name">'. $folder_name .'</td>
 								<td class="folder_group">'. $folder_group_id_str .'</td>
 								<td class="folder_quota">'. $folder_quota .'</td>
@@ -432,7 +432,7 @@ if(array_key_exists(0, $folders)){
 			$folder_group_permissions_str .= ucfirst($permissions) .', ';
 	}
 	$folder_tr .= '<tr>
-							<td class="folder-checkbox"><input type="checkbox" name="folder-id-|'. $folder_id .'"></td>
+							<td class="folder-checkbox"><input type="checkbox" name="'. $folder_id .'"></td>
 							<td class="folder_name">'. $folder_name .'</td>
 							<td class="folder_group">'. $folder_group_id_str .'</td>
 							<td class="folder_quota">'. $folder_quota .'</td>
