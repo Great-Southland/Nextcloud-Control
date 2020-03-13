@@ -11,7 +11,7 @@ License:      GPL v2 or later
 License URI:  https://www.gnu.org/licenses/gpl-2.0.txt
 
 Here is a short description of the plugin.  This should be no more than 150 characters.  No markup here.
-
+fff
 == Description ==
 
 This is the long description.  No limit, and you can use Markdown (as well as in the following sections).
@@ -116,5 +116,3 @@ Markdown uses email style notation for blockquotes and I've been told:
 > Asterisks for *emphasis*. Double it up  for **strong**.
 
 `<?php code(); // goes in backticks ?>`
-
-
