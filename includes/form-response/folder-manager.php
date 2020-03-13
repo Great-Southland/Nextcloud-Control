@@ -6,11 +6,35 @@ function wnus_folder_manager() {
 	if ( isset( $_POST['wnus-nonce'] ) && wp_verify_nonce( $_POST['wnus-nonce'], 'wnus-nonce' ) ) {
 
 //--------------------------------- Get Data -------------------------------
+		// ************** Make Get request and Convert XML NC Response ***************
+		$http_request = nc_request('GET', 'apps/groupfolders/folders');
+		// Convet XML String into an onject
+		$ob = simplexml_load_string($http_request['body']);
+		// Convet XML Object to json
+		$json  = json_encode($ob);
+		// Convet json to PHP Array
+		$configData = json_decode($json, true);
+		$folders = $configData['data']['element'];
+
+		// *************** Get Folder Ids ******************
+		// Array to hold all NC Folder Ids
+		$folder_ids = [];
+		if(array_key_exists(0, $folders)){
+		 //Cycle through Folders
+		 foreach($folders as $folder){
+			 $folder_ids[] = $folder['id'];
+		 }
+
+		} else {
+		 //If there is only one folder
+		 $folder_ids[] = $folders['id'];
+
+		}
 
 
 
 
-	 	
+
 
 
 
