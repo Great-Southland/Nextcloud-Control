@@ -29,11 +29,6 @@ function nc_request($method, $link){
   // Send HTTP Request with URL and Args
   $nc_response = wp_remote_request( $url, $args );
 
-	// Checks if HTTP Request failed on Wordpress Side
-	if ( is_wp_error( $nc_response ) ) {
-		$nc_response = $response->get_error_message();
-	}
-
 	// Return HTTP Request Response
 	return $nc_response;
 }
