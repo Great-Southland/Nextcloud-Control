@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name:  NextCloud-Control
-Description:  Automatically Update NextCloud Users And Groups When Users and Roles are changed in Wordpress
+Description:  Control NextCloud Users/Groups, manage Group Folders and display files in NextCloud directory on a WordPress page.
 Plugin URI:   NextCloud-Control
-Author:       David Forg
+Author:       David Forg & Benjamin Forg
 Version:      0.1
 Text Domain:  NextCloud-Control
 License:      GPL v2 or later
