@@ -67,7 +67,7 @@ function wnus_folder_manager() {
 // ================================ Procces a Delete request ================================
 				if($select_action == 'delete-folder'){
 		    	//---------------------------------------- Proccess HTTP Request --------------------------------
-		    	$http_request = nc_request('GET', 'apps/groupfolders/folders');
+		    	$http_request = nc_request('DELETE', 'apps/groupfolders/folders/'. $folder);
 
 		    	// ************** Convert XML NC Response to json and then to and array ***************
 		    	// Convet XML String into an onject

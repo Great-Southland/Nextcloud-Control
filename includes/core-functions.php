@@ -11,7 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 // --------------------------- Function to send a HTTP request to NC using Credentials/URL stored in Database ----------------------------------
-function nc_request($method, $link){
+function nc_request($method, $link, $array_merge = 0, $custom_args = array()){
+
 	// Get details from Database
 	$options = get_option( 'wnus_options', wnus_options_default() );
 	$nextcloud_server_url = isset( $options['nextcloud_server_url']) ? sanitize_text_field( $options['nextcloud_server_url'] ) : '';
@@ -20,12 +21,27 @@ function nc_request($method, $link){
 
 
 	$url = 'https://'. $nextcloud_server_username .':'. $nextcloud_server_pass .'@'. $nextcloud_server_url .'/'. $link;
-	$args = array( 'method' => $method,
-								 'timeout' => 40,
-								 'headers' => array(
-									 'OCS-APIRequest' => 'true',
-									 'Content-Type' => 'application/x-www-form-urlencoded',),
-							 );
+
+	if($array_merge == 2){
+		$args = $custom_args;
+
+	} elseif($array_merge == 1) {
+		$default_args = array( 'method' => $method,
+									 				 'timeout' => 40,
+									 			 	 'headers' => array(
+										 			 		'OCS-APIRequest' => 'true',
+										 		 	 		'Content-Type' => 'application/x-www-form-urlencoded',),);
+    $args = array_merge($default_args, $custom_args);
+	} else {
+		$args = array( 'method' => $method,
+									 'timeout' => 40,
+									 'headers' => array(
+										 'OCS-APIRequest' => 'true',
+										 'Content-Type' => 'application/x-www-form-urlencoded',),);
+	}
+
+
+
   // Send HTTP Request with URL and Args
   $nc_response = wp_remote_request( $url, $args );
 
