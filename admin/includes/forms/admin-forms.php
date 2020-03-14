@@ -243,41 +243,127 @@ $redirect_url = strtok($_SERVER["REQUEST_URI"],'?');
 //---------------------------------------- Proccess HTTP Request --------------------------------
 $http_request = nc_request('GET', 'apps/groupfolders/folders');
 
-// ************** Convert XML NC Response to json and then to and array ***************
-// Convet XML String into an onject
-$ob = simplexml_load_string($http_request['body']);
-// Convet XML Object to json
-$json  = json_encode($ob);
-// Convet json to PHP Array
-$configData = json_decode($json, true);
+//Only execute code if $http_request was succsesful
+if ( !is_wp_error($http_request)) {
+	// ************** Convert XML NC Response to json and then to and array ***************
+	// Convet XML String into an onject
+	$ob = simplexml_load_string($http_request['body']);
+	// Convet XML Object to json
+	$json  = json_encode($ob);
+	// Convet json to PHP Array
+	$configData = json_decode($json, true);
 
-// ************* Get Data *****************
-// HTTP Response Code from NC
-$nc_code = $configData['meta']['statuscode'];
-$nc_message = $configData['meta']['message'];
-// HTTP Response Message from NC
-$folders = $configData['data']['element'];
+	// ************* Get Data *****************
+	// HTTP Response Code from NC
+	$nc_code = $configData['meta']['statuscode'];
+	$nc_message = $configData['meta']['message'];
+	// HTTP Response Message from NC
+	$folders = $configData['data']['element'];
 
-// ----------------------------------- Create Group Select List -----------------------------
-$group_drop_down = '<option value="">Select Group</option>';
-$groups_a = get_roles();
-foreach($groups_a as $group) {
-	$group_capital = ucfirst($group);
-	$group_drop_down .= '<option value="' . $group .'">' . $group_capital .'</option>' . "\n";
-}
+	// ----------------------------------- Create Group Select List -----------------------------
+	$group_drop_down = '<option value="">Select Group</option>';
+	$groups_a = get_roles();
+	foreach($groups_a as $group) {
+		$group_capital = ucfirst($group);
+		$group_drop_down .= '<option value="' . $group .'">' . $group_capital .'</option>' . "\n";
+	}
 
-//---------------------------------------- Create Folder Rows for Folder-Manager Table --------------------------------------
-// String to hold Table Row HTML
-$folder_tr = '';
-//If there are multiple folders
-if(array_key_exists(0, $folders)){
-	//Cycle through Folders
-	foreach($folders as $folder){
-		$folder_id = $folder['id'];
-		$folder_name = $folder['mount_point'];
+	//---------------------------------------- Create Folder Rows for Folder-Manager Table --------------------------------------
+	// String to hold Table Row HTML
+	$folder_tr = '';
+	//If there are multiple folders
+	if(array_key_exists(0, $folders)){
+		//Cycle through Folders
+		foreach($folders as $folder){
+			$folder_id = $folder['id'];
+			$folder_name = $folder['mount_point'];
+
+			//************* Folder Quota *************
+			$folder_quota = $folder['quota'];
+			//Calculat KiloByte, MegaByte, and GigaByte
+			$folder_quota_kb = ceil($folder_quota * 0.000977);
+			$folder_quota_mb = ceil($folder_quota * 0.0000009537);
+			$folder_quota_gb = ceil($folder_quota * 0.000000000931);
+			// Use the appropriate unit for displaying Storage Used
+			if ($folder_quota == '-3'){
+					$folder_quota = 'UNLIMITED';
+			} elseif ($folder_quota_kb < '999'){
+					$folder_quota = $folder_quota_kb .' KB';
+			} elseif ($folder_quota_mb < '999'){
+					$folder_quota = $folder_quota_mb .' MB';
+			} else {
+					$folder_quota = $folder_quota_gb .' GB';
+			}
+
+			//************ Folder Sizes **************
+			$folder_size = $folder['size'];
+			//Calculat KiloByte, MegaByte, and GigaByte
+			$folder_size_kb = ceil($folder_size * 0.000977);
+			$folder_size_mb = ceil($folder_size * 0.0000009537);
+			$folder_size_gb = ceil($folder_size * 0.000000000931);
+			// Use the appropriate unit for displaying Storage Used
+			if ($folder_size_kb < '999'){
+				$folder_size = $folder_size_kb .' KB';
+			} elseif ($folder_size_mb < '999'){
+				$folder_size = $folder_size_mb .' MB';
+			} else {
+				$folder_size = $folder_size_gb .' GB';
+			}
+
+			//************ Get Folder Group names and Permissions ******************
+			//Array and String to hold folder ID
+			$folder_group_id = [];
+			$folder_group_id_str = '';
+			//Array and String to hold folder Permissions
+			$folder_group_permissions = [];
+			$folder_group_permissions_str = '';
+			//Iteration Counter for array keys
+			$iter_count = 0;
+			// If Folder is owned by multiple groups
+			if(array_key_exists(0, $folder['groups']['element'])){
+				//Cylce through Groups
+				foreach($folder['groups']['element'] as $item){
+					//Increment Iteration Counter by 1
+					$iter_count = $iter_count + 1;
+					//Get Group Ids and Permissions
+					$group_id = $item['@attributes']['group_id'];
+					$permissions = $item['@attributes']['permissions'];
+					//Add group ids and permissions to arrays
+					$folder_group_id[$folder_name .'_group_id_'. $iter_count] = $group_id;
+					$folder_group_permissions[$folder_name .'_permissions_'. $iter_count] = $permissions;
+				}
+			} else {
+				//If folder is owned by one group
+				//Get Group Ids and Permissions
+				$group_id = $folder['groups']['element']['@attributes']['group_id'];
+				$permissions = $folder['groups']['element']['@attributes']['permissions'];
+				//Add group ids and permissions to arrays
+				$folder_group_id[$folder_name .'_group_id'] = $group_id;
+				$folder_group_permissions[$folder_name .'_permissions'] = $permissions;
+			}
+			//Create String from Group_ID arrays
+			foreach($folder_group_id as $id){
+					$folder_group_id_str .= ucfirst($id) .', ';
+			}
+			//Create String from Permission arrays
+			foreach($folder_group_permissions as $permissions){
+					$folder_group_permissions_str .= ucfirst($permissions) .', ';
+			}
+			$folder_tr .= '<tr>
+									<td class="folder-checkbox"><input type="checkbox" name="'. $folder_id .'"></td>
+									<td class="folder_name">'. $folder_name .'</td>
+									<td class="folder_group">'. $folder_group_id_str .'</td>
+									<td class="folder_quota">'. $folder_quota .'</td>
+									<td class="folder_storage">'. $folder_size .'</td>
+									</tr>';
+		}
+	} else {
+		//If there is only one folder
+		$folder_id = $folders['id'];
+		$folder_name = $folders['mount_point'];
 
 		//************* Folder Quota *************
-		$folder_quota = $folder['quota'];
+		$folder_quota = $folders['quota'];
 		//Calculat KiloByte, MegaByte, and GigaByte
 		$folder_quota_kb = ceil($folder_quota * 0.000977);
 		$folder_quota_mb = ceil($folder_quota * 0.0000009537);
@@ -294,7 +380,7 @@ if(array_key_exists(0, $folders)){
 		}
 
 		//************ Folder Sizes **************
-		$folder_size = $folder['size'];
+		$folder_size = $folders['size'];
 		//Calculat KiloByte, MegaByte, and GigaByte
 		$folder_size_kb = ceil($folder_size * 0.000977);
 		$folder_size_mb = ceil($folder_size * 0.0000009537);
@@ -318,9 +404,9 @@ if(array_key_exists(0, $folders)){
 		//Iteration Counter for array keys
 		$iter_count = 0;
 		// If Folder is owned by multiple groups
-		if(array_key_exists(0, $folder['groups']['element'])){
+		if(array_key_exists(0, $folders['groups']['element'])){
 			//Cylce through Groups
-			foreach($folder['groups']['element'] as $item){
+			foreach($folders['groups']['element'] as $item){
 				//Increment Iteration Counter by 1
 				$iter_count = $iter_count + 1;
 				//Get Group Ids and Permissions
@@ -333,8 +419,8 @@ if(array_key_exists(0, $folders)){
 		} else {
 			//If folder is owned by one group
 			//Get Group Ids and Permissions
-			$group_id = $folder['groups']['element']['@attributes']['group_id'];
-			$permissions = $folder['groups']['element']['@attributes']['permissions'];
+			$group_id = $folders['groups']['element']['@attributes']['group_id'];
+			$permissions = $folders['groups']['element']['@attributes']['permissions'];
 			//Add group ids and permissions to arrays
 			$folder_group_id[$folder_name .'_group_id'] = $group_id;
 			$folder_group_permissions[$folder_name .'_permissions'] = $permissions;
@@ -348,140 +434,75 @@ if(array_key_exists(0, $folders)){
 				$folder_group_permissions_str .= ucfirst($permissions) .', ';
 		}
 		$folder_tr .= '<tr>
-								<td class="folder-checkbox"><input type="checkbox" name="folder-id-|'. $folder_id .'"></td>
+								<td class="folder-checkbox"><input type="checkbox" name="'. $folder_id .'"></td>
 								<td class="folder_name">'. $folder_name .'</td>
 								<td class="folder_group">'. $folder_group_id_str .'</td>
 								<td class="folder_quota">'. $folder_quota .'</td>
 								<td class="folder_storage">'. $folder_size .'</td>
 								</tr>';
 	}
-} else {
-	//If there is only one folder
-	$folder_id = $folders['id'];
-	$folder_name = $folders['mount_point'];
 
-	//************* Folder Quota *************
-	$folder_quota = $folders['quota'];
-	//Calculat KiloByte, MegaByte, and GigaByte
-	$folder_quota_kb = ceil($folder_quota * 0.000977);
-	$folder_quota_mb = ceil($folder_quota * 0.0000009537);
-	$folder_quota_gb = ceil($folder_quota * 0.000000000931);
-	// Use the appropriate unit for displaying Storage Used
-	if ($folder_quota == '-3'){
-			$folder_quota = 'UNLIMITED';
-	} elseif ($folder_quota_kb < '999'){
-			$folder_quota = $folder_quota_kb .' KB';
-	} elseif ($folder_quota_mb < '999'){
-			$folder_quota = $folder_quota_mb .' MB';
-	} else {
-			$folder_quota = $folder_quota_gb .' GB';
-	}
 
-	//************ Folder Sizes **************
-	$folder_size = $folders['size'];
-	//Calculat KiloByte, MegaByte, and GigaByte
-	$folder_size_kb = ceil($folder_size * 0.000977);
-	$folder_size_mb = ceil($folder_size * 0.0000009537);
-	$folder_size_gb = ceil($folder_size * 0.000000000931);
-	// Use the appropriate unit for displaying Storage Used
-	if ($folder_size_kb < '999'){
-		$folder_size = $folder_size_kb .' KB';
-	} elseif ($folder_size_mb < '999'){
-		$folder_size = $folder_size_mb .' MB';
-	} else {
-		$folder_size = $folder_size_gb .' GB';
-	}
 
-	//************ Get Folder Group names and Permissions ******************
-	//Array and String to hold folder ID
-	$folder_group_id = [];
-	$folder_group_id_str = '';
-	//Array and String to hold folder Permissions
-	$folder_group_permissions = [];
-	$folder_group_permissions_str = '';
-	//Iteration Counter for array keys
-	$iter_count = 0;
-	// If Folder is owned by multiple groups
-	if(array_key_exists(0, $folders['groups']['element'])){
-		//Cylce through Groups
-		foreach($folders['groups']['element'] as $item){
-			//Increment Iteration Counter by 1
-			$iter_count = $iter_count + 1;
-			//Get Group Ids and Permissions
-			$group_id = $item['@attributes']['group_id'];
-			$permissions = $item['@attributes']['permissions'];
-			//Add group ids and permissions to arrays
-			$folder_group_id[$folder_name .'_group_id_'. $iter_count] = $group_id;
-			$folder_group_permissions[$folder_name .'_permissions_'. $iter_count] = $permissions;
-		}
+
+	//---------------------------------------- HTML Code --------------------------------------------
+	?>
+		<div class="wrap">
+			<h3><?php esc_html_e( 'Folder Manager', 'wnus' ); ?></h3>
+			<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
+
+
+				<table class="folder-table" style="width:100%;border:1px solid black;margin-top:35px;">
+					<thead style="background-color:white;">
+						<tr>
+							<th style="text-align:left;width:15px;"><input type="checkbox" name="folder-checkbox"></th>
+							<th style="text-align:left;">Folder Name</th>
+							<th style="text-align:left;">Group</th>
+							<th style="text-align:left;">Quota</th>
+							<th style="text-align:left;">Storage Used</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php echo $folder_tr; ?>
+					</tbody>
+				</table>
+				<select required style="margin:10px;display:inline-block;" name="action-select" id="select-action" onchange="optionCheck(this);">
+					<option value="">Select Action</option>
+					<option value="delete-folder">Delete Folder/s</option>
+					<option value="give-access">Add Group to Folder</option>
+					<option value="remove-access">Remove A Group From Folder</option>
+					<option value="set-quota">Set Quota Limit For Folder</option>
+					<option value="rename-folder">Rename Folder</option>
+				</select>
+				<select id="group-select" name="group-select">
+					<?php echo $group_drop_down; ?>
+				</select>
+				<input class="regular-text" style="width:160px;" placeholder="Enter Value" type="text" size="40" name="text-input" id="text-input">
+
+
+				<input type="hidden" name="action" value="wnus_folder_manager_form_response">
+				<input type="hidden" name="redirect-url" value="<?php echo $redirect_url; ?>">
+				<input type="hidden" name="front-back-end" value="backend">
+				<input type="hidden" name="wnus-nonce" value="<?php echo wp_create_nonce( 'wnus-nonce' ); ?>">
+				<input type="submit" name="update-user-submit" class="button button-primary" value="<?php esc_html_e( 'Delete Folder', 'wnus' ); ?>">
+			</form>
+		</div>
+		<?php
 	} else {
-		//If folder is owned by one group
-		//Get Group Ids and Permissions
-		$group_id = $folders['groups']['element']['@attributes']['group_id'];
-		$permissions = $folders['groups']['element']['@attributes']['permissions'];
-		//Add group ids and permissions to arrays
-		$folder_group_id[$folder_name .'_group_id'] = $group_id;
-		$folder_group_permissions[$folder_name .'_permissions'] = $permissions;
+		// if $http_request returned a wp error display error message
+		//Get Error Message
+		$http_request = $http_request->get_error_message();
+		?>
+
+		<div class="notice  notice-warning is-dismissible" style="margin-top:20px;">
+			<p>
+				<strong>
+					NextCloud: Operation Failed, Please Ensure You Have Entered the Correct Settings in the Settings Page
+					<br> Error Message: <?php echo $http_request; ?>
+				</strong>
+			</p>
+		</div>
+
+		<?php
 	}
-	//Create String from Group_ID arrays
-	foreach($folder_group_id as $id){
-			$folder_group_id_str .= ucfirst($id) .', ';
-	}
-	//Create String from Permission arrays
-	foreach($folder_group_permissions as $permissions){
-			$folder_group_permissions_str .= ucfirst($permissions) .', ';
-	}
-	$folder_tr .= '<tr>
-							<td class="folder-checkbox"><input type="checkbox" name="folder-id-|'. $folder_id .'"></td>
-							<td class="folder_name">'. $folder_name .'</td>
-							<td class="folder_group">'. $folder_group_id_str .'</td>
-							<td class="folder_quota">'. $folder_quota .'</td>
-							<td class="folder_storage">'. $folder_size .'</td>
-							</tr>';
 }
-
-
-
-//---------------------------------------- HTML Code --------------------------------------------
-?>
-	<div class="wrap">
-		<h3><?php esc_html_e( 'Folder Manager', 'wnus' ); ?></h3>
-		<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
-
-
-			<table class="folder-table" style="width:100%;border:1px solid black;margin-top:35px;">
-				<thead style="background-color:white;">
-					<tr>
-						<th style="text-align:left;width:15px;"><input type="checkbox" name="folder-checkbox"></th>
-						<th style="text-align:left;">Folder Name</th>
-						<th style="text-align:left;">Group</th>
-						<th style="text-align:left;">Quota</th>
-						<th style="text-align:left;">Storage Used</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php echo $folder_tr; ?>
-				</tbody>
-			</table>
-			<select required style="margin:10px;display:inline-block;" name="action-select" id="select-action" onchange="optionCheck(this);">
-				<option value="">Select Action</option>
-				<option value="delete-folder">Delete Folder/s</option>
-				<option value="give-access">Add Group to Folder</option>
-				<option value="remove-access">Remove A Group From Folder</option>
-				<option value="set-quota">Set Quota Limit For Folder</option>
-				<option value="rename-folder">Rename Folder</option>
-			</select>
-			<select id="group-select" name="group-select">
-				<?php echo $group_drop_down; ?>
-			</select>
-			<input class="regular-text" style="width:160px;" placeholder="Enter Value" type="text" size="40" name="text-input" id="text-input">
-
-
-			<input type="hidden" name="action" value="wnus_folder_manager_form_response">
-			<input type="hidden" name="redirect-url" value="<?php echo $redirect_url; ?>">
-			<input type="hidden" name="front-back-end" value="backend">
-			<input type="hidden" name="wnus-nonce" value="<?php echo wp_create_nonce( 'wnus-nonce' ); ?>">
-			<input type="submit" name="update-user-submit" class="button button-primary" value="<?php esc_html_e( 'Delete Folder', 'wnus' ); ?>">
-		</form>
-	</div>
-<?php }
