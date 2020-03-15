@@ -46,54 +46,46 @@ function nc_request($method, $link){
 	}
 
 // --------------------- Get users by Roles-----------------------
-function get_users_by_role($role, $orderby, $order) {
-	   $args = array(
-	       'role'    => $role,
-	       'orderby' => $orderby,
-	       'order'   => $order
-	   );
-	   $users = get_users( $args );
-	   return $users;
-}
+		function get_users_by_role($role, $orderby, $order) {
+	    	$args = array(
+	        	'role'    => $role,
+	        	'orderby' => $orderby,
+	        	'order'   => $order
+	    	);
+	    	$users = get_users( $args );
+	    	return $users;
+		}
 //------------------------- Function to Get user roles by id ----------------
-function get_user_roles_edit($user_id) {
-	$user_meta=get_userdata($user_id);
-	$user_roles=$user_meta->roles;
-	return $user_roles;
-}
+			function get_user_roles_edit($user_id) {
+				$user_meta=get_userdata($user_id);
+				$user_roles=$user_meta->roles;
+				return $user_roles;
+			}
 
 // ----------------------- Function to see if Array contains String -------------------------------
-function array_contains($array, $filter){
-	// Get current users Leader Roles
-	$filtered_array = array_filter($array, function($array_element) use($filter){
-			if (strpos($array_element, $filter) !== false) {
-				return true;
-			} else {
-				return false;
-			}
-	});
-	return $filtered_array;
-}
+				function array_contains($array, $filter){
+					// Get current users Leader Roles
+					$filtered_array = array_filter($array, function($array_element) use($filter){
+							if (strpos($array_element, $filter) !== false) {
+								return true;
+							} else {
+								return false;
+							}
+					 });
+					 return $filtered_array;
+				 }
 
 // ----------------------------- Get array of wp roles -------------------------
-function get_roles(){
-	if (!function_exists('get_editable_roles')) {
-		require_once(ABSPATH . '/wp-admin/includes/user.php');
-	}
-		$roles_s = '';
-		$wnus_editable_roles = get_editable_roles();
-		foreach ($wnus_editable_roles as $role => $details) {
-				$roles_s .= $role .'|';
-		}
-		$roles_s = rtrim($roles_s, '|');
-		$roles_a = explode('|', $roles_s);
-		return $roles_a;
-}
-
-/* ---------------------------- Convert XML data in array -------------------*/
-function xml_to_array($raw_xml_data) {
-	$raw_xml_string = simplexml_load_string($raw_xml_data);
-		$encode_json  = json_encode($raw_xml_string);
-		$xml_array = json_decode($encode_json, true);
-	return $xml_array;
-}
+					 function get_roles(){
+						 if (!function_exists('get_editable_roles')) {
+							 require_once(ABSPATH . '/wp-admin/includes/user.php');
+						 }
+							 $roles_s = '';
+							 $wnus_editable_roles = get_editable_roles();
+							 foreach ($wnus_editable_roles as $role => $details) {
+									 $roles_s .= $role .'|';
+							 }
+							 $roles_s = rtrim($roles_s, '|');
+							 $roles_a = explode('|', $roles_s);
+							 return $roles_a;
+						 }
