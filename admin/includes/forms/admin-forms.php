@@ -235,7 +235,8 @@ function wnus_user_group_manager_form() {
 
 
 <?php }
-
+/*
+//------------- Disable Folder Manager Code because HTTP API Requests arn't working
 // Folder Mangaer Form backend
 function wnus_folder_manager_form() {
 $redirect_url = strtok($_SERVER["REQUEST_URI"],'?');
@@ -485,3 +486,4 @@ if(array_key_exists(0, $folders)){
 		</form>
 	</div>
 <?php }
+*/
