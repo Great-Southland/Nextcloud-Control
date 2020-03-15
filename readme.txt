@@ -1,9 +1,9 @@
 === Plugin Name ===
 
-Plugin Name:  MyPlugin
-Description:  Example plugin for the video tutorial series, "WordPress: Plugin Development", available at Lynda.com.
+Plugin Name:  NextCloud Control
+Description:  Control NextCloud Users/Groups, manage Group Folders and display files in NextCloud directory on a WordPress page.
 Plugin URI:   https://profiles.wordpress.org/specialk
-Author:       Jeff Starr
+Author:       Benjamin Forg
 Version:      1.0
 Text Domain:  myplugin
 Domain Path:  /languages
@@ -11,7 +11,7 @@ License:      GPL v2 or later
 License URI:  https://www.gnu.org/licenses/gpl-2.0.txt
 
 Here is a short description of the plugin.  This should be no more than 150 characters.  No markup here.
-
+ 
 == Description ==
 
 This is the long description.  No limit, and you can use Markdown (as well as in the following sections).
