@@ -97,3 +97,27 @@ function xml_to_array($raw_xml_data) {
 		$xml_array = json_decode($encode_json, true);
 	return $xml_array;
 }
+
+/* ----------------------------  Get/Create a Nextcloud Share link ----------------------------*/
+function get_create_nextcloud_share_link($method, $file_path, $shareType, $publicUpload, $permissions, $shareWith) {
+	//******************* Send API Request *************************
+	$url = 'https://Benjamin:benjaminforg@salones-portal.ddns.net/cloud/ocs/v2.php/apps/files_sharing/api/v1/shares?shareWith='. $shareWith .'&shareType='. $shareType .'&publicUpload='. $publicUpload .'&permissions='. $permissions .'&path='. $file_path;
+	$args = array( 'method' => $method,
+							   'timeout' => 40000,
+								 'headers' => array(
+									 'OCS-APIRequest' => 'true',
+									 'Content-Type' => 'application/x-www-form-urlencoded',),
+							 );
+	$xml_response = wp_remote_request( $url, $args );
+  $xml_in_array = xml_to_array($xml_response['body']);
+// ************** check if share link is in the "element" or "data" array (If it created the link its in the "data" array)******************
+	if (isset($xml_in_array['data']['element']['url'])) {
+		$result = $xml_in_array['data']['element']['url'];
+	}	elseif (isset($xml_in_array['data']['url'])) {
+		$result = $xml_in_array['data']['url'];
+	// Return false if the method is GET
+	}	elseif ($method = 'GET') {
+		$result = false;
+	}
+return $result;
+}
