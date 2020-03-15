@@ -11,13 +11,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 // --------------------------- Function to send a HTTP request to NC using Credentials/URL stored in Database ----------------------------------
-function nc_request($method, $link, $array_merge = 0, $custom_args = array()){
+function nc_request($method, $link, $nc_server_username = 'username', $nc_server_pass = 'pass', $array_merge = 0, $custom_args = array()){
 
 	// Get details from Database
 	$options = get_option( 'wnus_options', wnus_options_default() );
 	$nextcloud_server_url = isset( $options['nextcloud_server_url']) ? sanitize_text_field( $options['nextcloud_server_url'] ) : '';
 	$nextcloud_server_username = isset( $options['nextcloud_server_username']) ? sanitize_text_field( $options['nextcloud_server_username'] ) : '';
 	$nextcloud_server_pass = isset( $options['nextcloud_server_pass']) ? sanitize_text_field( $options['nextcloud_server_pass'] ) : '';
+
+	$nextcloud_sever_username = $nc_server_username != 'username' ? $nc_server_username : $nextcloud_server_username;
+	$nextcloud_sever_pass = $nc_server_pass != 'pass' ? $nc_server_pass : $nextcloud_server_pass;
 
 
 	$url = 'https://'. $nextcloud_server_username .':'. $nextcloud_server_pass .'@'. $nextcloud_server_url .'/'. $link;
@@ -39,6 +42,7 @@ function nc_request($method, $link, $array_merge = 0, $custom_args = array()){
 										 'OCS-APIRequest' => 'true',
 										 'Content-Type' => 'application/x-www-form-urlencoded',),);
 	}
+}
 
 // --------------------- Function to Get user roles by id --------------------
 	function get_user_roles($user_id) {
