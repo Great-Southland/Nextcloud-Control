@@ -101,14 +101,8 @@ function xml_to_array($raw_xml_data) {
 /* ----------------------------  Get/Create a Nextcloud Share link ----------------------------*/
 function get_create_nextcloud_share_link($method, $file_path, $shareType, $publicUpload, $permissions, $shareWith) {
 	//******************* Send API Request *************************
-	$url = 'https://Benjamin:benjaminforg@salones-portal.ddns.net/cloud/ocs/v2.php/apps/files_sharing/api/v1/shares?shareWith='. $shareWith .'&shareType='. $shareType .'&publicUpload='. $publicUpload .'&permissions='. $permissions .'&path='. $file_path;
-	$args = array( 'method' => $method,
-							   'timeout' => 40000,
-								 'headers' => array(
-									 'OCS-APIRequest' => 'true',
-									 'Content-Type' => 'application/x-www-form-urlencoded',),
-							 );
-	$xml_response = wp_remote_request( $url, $args );
+	$url = 'ocs/v2.php/apps/files_sharing/api/v1/shares?shareWith='. $shareWith .'&shareType='. $shareType .'&publicUpload='. $publicUpload .'&permissions='. $permissions .'&path='. $file_path;
+	$xml_response = nc_request($method, $url)
   $xml_in_array = xml_to_array($xml_response['body']);
 // ************** check if share link is in the "element" or "data" array (If it created the link its in the "data" array)******************
 	if (isset($xml_in_array['data']['element']['url'])) {
@@ -120,4 +114,20 @@ function get_create_nextcloud_share_link($method, $file_path, $shareType, $publi
 		$result = false;
 	}
 return $result;
+}
+
+/* ---------------------------- Get share link and if not created yet create and return the link ----------------------------*/
+function get_nc_share_link($file_path, $shareType = 3, $publicUpload = false, $permissions = 1, $shareWith = '') {
+	$get_create_nc_share_link = get_create_nextcloud_share_link('GET', $file_path, $shareType, $publicUpload, $permissions, $shareWith);
+// **************** Check if GET link returns false, if it does Create link ***************
+	if ($get_create_nc_share_link != false) {
+		$result = $get_create_nc_share_link;
+	}	else {
+		$result = get_create_nextcloud_share_link('POST', $file_path, $shareType, $publicUpload, $permissions, $shareWith);
+	}
+// if it couldn't Get or create link return message
+  if (empty($result)) {
+		$result = "Couldn't Create/Get Share Link";
+	}
+	return $result;
 }
