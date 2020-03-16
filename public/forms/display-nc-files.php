@@ -6,12 +6,16 @@ function display_nc_share_links($shortcode_atts) {
 																				),$shortcode_atts);
 	$folder_path = $shortcode_att['folder-path'];
 	$hide_file = $shortcode_att['hide-file'];
+
+
 	$url = 'https://Benjamin:benjaminforg@salones-portal.ddns.net/cloud/remote.php/dav/files/Benjamin/'. $folder_path;
 	$args = array( 'method' => 'PROPFIND',
 								 'timeout' => 40000,
 							 );
-
 	$raw_xml_response = wp_remote_request( $url, $args );
+
+
+
 	$xml_response = str_replace('d:', '', $raw_xml_response['body']);
 	$xml_array = xml_to_array($xml_response);
 	$result = '';
@@ -27,4 +31,4 @@ function display_nc_share_links($shortcode_atts) {
 		$result .= '<a href="'. $share_url .'">'. $decoded_file_name .'</a><br>';
 	}
 	return $result;
-} add_shortcode('display-nc-share-link', 'display_nc_share_links');
+} add_shortcode('list-nc-files', 'display_nc_share_links');
