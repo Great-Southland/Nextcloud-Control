@@ -1,7 +1,7 @@
 <?php // Get/Create share link for all files/folders in a nc folder and display them on a table with preview
 
 function display_nc_share_links() {
-	$url = 'https://admin:lonesadmin@salones-portal.ddns.net/cloud/remote.php/dav/files/admin/testgroupfolder';
+	$url = 'https://Benjamin:benjaminforg@salones-portal.ddns.net/cloud/remote.php/dav/files/Benjamin/testgroupfolder';
 	$args = array( 'method' => 'PROPFIND',
 								 'timeout' => 40000,
 							 );
@@ -13,7 +13,7 @@ function display_nc_share_links() {
 
 	foreach($xml_array['response'] as $response){
 		$folder_path = 'testgroupfolder/';
-		$url_path = str_replace('/cloud/remote.php/dav/files/admin/', '', $response['href']);
+		$url_path = str_replace('/cloud/remote.php/dav/files/Benjamin/', '', $response['href']);
 		$file_name = str_replace($folder_path, '', $url_path);
 		$decoded_file_name = urldecode($file_name);
 
