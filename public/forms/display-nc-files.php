@@ -1,7 +1,10 @@
 <?php // Get/Create share link for all files/folders in a nc folder and display them on a table with preview
 
-function display_nc_share_links() {
-	$url = 'https://Benjamin:benjaminforg@salones-portal.ddns.net/cloud/remote.php/dav/files/Benjamin/testgroupfolder';
+function display_nc_share_links($shortcode_atts) {
+	$shortcode_path_att = shortcode_atts(array('folder-path'=>'',),$shortcode_atts);
+	$folder_path = $shortcode_path_att['folder-path'];
+
+	$url = 'https://Benjamin:benjaminforg@salones-portal.ddns.net/cloud/remote.php/dav/files/Benjamin/'. $folder_path;
 	$args = array( 'method' => 'PROPFIND',
 								 'timeout' => 40000,
 							 );
@@ -12,9 +15,8 @@ function display_nc_share_links() {
 	$result = '';
 
 	foreach($xml_array['response'] as $response){
-		$folder_path = 'testgroupfolder/';
 		$url_path = str_replace('/cloud/remote.php/dav/files/Benjamin/', '', $response['href']);
-		$file_name = str_replace($folder_path, '', $url_path);
+		$file_name = str_replace($folder_path .'/', '', $url_path);
 		$decoded_file_name = urldecode($file_name);
 
 		$share_url = get_nc_share_link($url_path);
@@ -22,4 +24,4 @@ function display_nc_share_links() {
 	}
 
 	return $result;
-} add_shortcode('display_nc_share_link', 'display_nc_share_links');
+} add_shortcode('display-nc-share-link', 'display_nc_share_links');
