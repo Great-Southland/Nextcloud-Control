@@ -19,10 +19,6 @@ function nc_request($method, $link, $array_merge = 0, $custom_args = array()){
 	$nextcloud_server_username = isset( $options['nextcloud_server_username']) ? sanitize_text_field( $options['nextcloud_server_username'] ) : '';
 	$nextcloud_server_pass = isset( $options['nextcloud_server_pass']) ? sanitize_text_field( $options['nextcloud_server_pass'] ) : '';
 
-	// $nextcloud_sever_username = $nc_server_username != 'username' ? $nc_server_username : $nextcloud_server_username;
-	// $nextcloud_sever_pass = $nc_server_pass != 'pass' ? $nc_server_pass : $nextcloud_server_pass;
-
-
 	$url = 'https://'. $nextcloud_server_username .':'. $nextcloud_server_pass .'@'. $nextcloud_server_url .'/'. $link;
 
 	if($array_merge == 2){
@@ -42,6 +38,12 @@ function nc_request($method, $link, $array_merge = 0, $custom_args = array()){
 										 'OCS-APIRequest' => 'true',
 										 'Content-Type' => 'application/x-www-form-urlencoded',),);
 	}
+
+  // Send HTTP Request with URL and Args
+  $nc_response = wp_remote_request( $url, $args );
+
+	// Return HTTP Request Response
+	return $nc_response;
 }
 
 // --------------------- Function to Get user roles by id --------------------
@@ -104,22 +106,49 @@ function xml_to_array($raw_xml_data) {
 	return $xml_array;
 }
 
+
+function nextcloud_response($method, $url, $array_merge = 0, $custom_args = array()) {
+
+	$nextcloud_server_url = 'salones-portal.ddns.net/cloud';
+	$nextcloud_server_username = 'Benjamin';
+	$nextcloud_server_pass = 'benjaminforg';
+
+	$link = 'https://'. $nextcloud_server_username .':'. $nextcloud_server_pass .'@'. $nextcloud_server_url . $url;
+
+	if($array_merge == 2){
+		$args = $custom_args;
+	} elseif($array_merge == 1) {
+		$default_args = array( 'method' => $method,
+									 				 'timeout' => 40,
+									 			 	 'headers' => array(
+				 				 			 	   	 'OCS-APIRequest' => 'true',
+					 			 		 	 			 'Content-Type' => 'application/x-www-form-urlencoded',),);
+		$args = array_merge($default_args, $custom_args);
+	} else {
+		$args = array( 'method' => $method,
+						 			'timeout' => 40,
+						 			'headers' => array(
+						 				'OCS-APIRequest' => 'true',
+						 				'Content-Type' => 'application/x-www-form-urlencoded',),);
+	}
+
+	// Send HTTP Request with URL and Args
+  $xml_response = wp_remote_request( $url, $args );
+
+	// Return HTTP Request Response
+	return $xml_response;
+}
+
+
+
+
+
 /* ----------------------------  Get/Create a Nextcloud Share link ----------------------------*/
 function get_create_nextcloud_share_link($method, $file_path, $shareType, $publicUpload, $permissions, $shareWith) {
 	//******************* Send API Request *************************
 
-
-	$url = 'https://Benjamin:benjaminforg@salones-portal.ddns.net/cloud/ocs/v2.php/apps/files_sharing/api/v1/shares?shareWith='. $shareWith .'&shareType='. $shareType .'&publicUpload='. $publicUpload .'&permissions='. $permissions .'&path='. $file_path;
-	$args = array( 'method' => $method,
-								 'timeout' => 40000,
-								 'headers' => array(
-									 'OCS-APIRequest' => 'true',
-									 'Content-Type' => 'application/x-www-form-urlencoded',),
-							 );
-	$xml_response = wp_remote_request( $url, $args );
-
-
-
+	$url = 'ocs/v2.php/apps/files_sharing/api/v1/shares?shareWith='. $shareWith .'&shareType='. $shareType .'&publicUpload='. $publicUpload .'&permissions='. $permissions .'&path='. $file_path;
+	$xml_response = nextcloud_response($method, $url);
 
   $xml_in_array = xml_to_array($xml_response['body']);
 // ************** check if share link is in the "element" or "data" array (If it created the link its in the "data" array)******************
