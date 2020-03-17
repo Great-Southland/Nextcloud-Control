@@ -113,7 +113,7 @@ function nextcloud_response($method, $url, $array_merge = 0, $custom_args = arra
 	$nextcloud_server_username = 'Benjamin';
 	$nextcloud_server_pass = 'benjaminforg';
 
-	$link = 'https://'. $nextcloud_server_username .':'. $nextcloud_server_pass .'@'. $nextcloud_server_url . $url;
+	$link = 'https://'. $nextcloud_server_username .':'. $nextcloud_server_pass .'@'. $nextcloud_server_url .'/'. $url;
 
 	if($array_merge == 2){
 		$args = $custom_args;
