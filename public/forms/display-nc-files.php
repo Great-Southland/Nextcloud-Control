@@ -7,14 +7,18 @@ function display_nc_share_links($shortcode_atts) {
 
 
 	// $options = get_option( 'wnus_options', wnus_options_default() );
-	// $nc_file_username = isset( $options['file_display_username']) ? sanitize_text_field( $options['file_display_username'] ) : 'username';
-	// $nc_file_pass = isset( $options['file_display_pass']) ? sanitize_text_field( $options['file_display_pass'] ) : 'pass';
+	// $ncnc_file_username = 'username';
+	// $ncnc_file_pass = 'pass';
 
 	$shortcode_att = shortcode_atts(array('folder-path'=>'',
-																				'hide-file'=>'Readme.md',
+																				'hide-files'=>'Readme.md',
 																				),$shortcode_atts);
 	$folder_path = $shortcode_att['folder-path'];
-	$hide_file = $shortcode_att['hide-file'];
+	$hide_file_a = explode(',', $shortcode_att['hide-files']);
+
+	foreach($hide_file_a as $hide_file_s){
+		$hide_file_a[$hide_file_s] = $hide_file_s;
+	}
 
 	$url = 'remote.php/dav/files/'. $nc_file_username .'/'. $folder_path;
 	$raw_xml_response = nc_request('PROPFIND', $url, $nc_file_username, $nc_file_pass);
@@ -28,10 +32,11 @@ function display_nc_share_links($shortcode_atts) {
 		$file_name = str_replace($folder_path .'/', '', $url_path);
 		$decoded_file_name = urldecode($file_name);
 
-		if($decoded_file_name == $hide_file){continue;}
+		if(array_key_exists($decoded_file_name, $hide_file_a)){continue;}
 
 		$share_url = get_nc_share_link($url_path, $nc_file_username, $nc_file_pass);
 		$result .= '<a href="'. $share_url .'">'. $decoded_file_name .'</a><br>';
 	}
+
 	return $result;
 } add_shortcode('list-nc-files', 'display_nc_share_links');
