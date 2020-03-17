@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 // --------------------------- Function to send a HTTP request to NC using Credentials/URL stored in Database ----------------------------------
-function nc_request($method, $link, $nc_server_username = 'username', $nc_server_pass = 'pass', $array_merge = 0, $custom_args = array()){
+function nc_request($method, $link, $nc_username = 'username', $nc_pass = 'pass', $array_merge = 0, $custom_args = array()){
 
 	// Get details from Database
 	$options = get_option( 'wnus_options', wnus_options_default() );
@@ -19,8 +19,8 @@ function nc_request($method, $link, $nc_server_username = 'username', $nc_server
 	$nextcloud_server_username = isset( $options['nextcloud_server_username']) ? sanitize_text_field( $options['nextcloud_server_username'] ) : '';
 	$nextcloud_server_pass = isset( $options['nextcloud_server_pass']) ? sanitize_text_field( $options['nextcloud_server_pass'] ) : '';
 
-	$nextcloud_server_username = $nc_server_username == 'username' ? $nextcloud_server_username : $nc_server_username;
-	$nextcloud_server_pass = $nc_server_pass == 'pass' ? $nextcloud_server_pass : $nc_server_pass;
+	$nextcloud_server_username = $nc_username == 'username' ? $nextcloud_server_username : $nc_username;
+	$nextcloud_server_pass = $nc_pass == 'pass' ? $nextcloud_server_pass : $nc_pass;
 
 	$url = 'https://'. $nextcloud_server_username .':'. $nextcloud_server_pass .'@'. $nextcloud_server_url .'/'. $link;
 
@@ -110,10 +110,10 @@ function xml_to_array($raw_xml_data) {
 }
 
 /* ----------------------------  Get/Create a Nextcloud Share link ----------------------------*/
-function get_create_nextcloud_share_link($method, $file_path, $shareType, $publicUpload, $permissions, $shareWith) {
+function get_create_nextcloud_share_link($method, $file_path, $nc_file_username, $nc_file_pass, $shareType, $publicUpload, $permissions, $shareWith) {
 	//******************* Send API Request *************************
 	$url = 'ocs/v2.php/apps/files_sharing/api/v1/shares?shareWith='. $shareWith .'&shareType='. $shareType .'&publicUpload='. $publicUpload .'&permissions='. $permissions .'&path='. $file_path;
-	$xml_response = nc_request($method, $url, 'Benjamin', 'benjaminforg');
+	$xml_response = nc_request($method, $url, $nc_file_username, $nc_file_pass);
   $xml_in_array = xml_to_array($xml_response['body']);
 
 // ************** check if share link is in the "element" or "data" array (If it created the link its in the "data" array)******************
@@ -129,13 +129,13 @@ return $result;
 }
 
 /* =========================== Get share link and if not created yet create and return the link ======================*/
-function get_nc_share_link($file_path, $shareType = 3, $publicUpload = false, $permissions = 1, $shareWith = '') {
-	$get_create_nc_share_link = get_create_nextcloud_share_link('GET', $file_path, $shareType, $publicUpload, $permissions, $shareWith);
+function get_nc_share_link($file_path, $nc_file_username = 'username', $nc_file_pass = 'pass', $shareType = 3, $publicUpload = false, $permissions = 1, $shareWith = '') {
+	$get_create_nc_share_link = get_create_nextcloud_share_link('GET', $file_path, $nc_file_username, $nc_file_pass, $shareType, $publicUpload, $permissions, $shareWith);
 // **************** Check if GET link returns false, if it does Create link ***************
 	if ($get_create_nc_share_link != false) {
 		$result = $get_create_nc_share_link;
 	}	else {
-		$result = get_create_nextcloud_share_link('POST', $file_path, $shareType, $publicUpload, $permissions, $shareWith);
+		$result = get_create_nextcloud_share_link('POST', $file_path, $nc_file_username, $nc_file_pass, $shareType, $publicUpload, $permissions, $shareWith);
 	}
 // if it couldn't Get or create link return message
   if (empty($result)) {
