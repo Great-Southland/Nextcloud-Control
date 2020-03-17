@@ -101,7 +101,7 @@ function get_roles(){
 		return $roles_a;
 }
 
-/* ---------------------------- Convert XML data in array -------------------*/
+/* =========================== Convert XML data in array ===========================*/
 function xml_to_array($raw_xml_data) {
 	$raw_xml_string = simplexml_load_string($raw_xml_data);
 		$encode_json  = json_encode($raw_xml_string);
@@ -109,7 +109,7 @@ function xml_to_array($raw_xml_data) {
 	return $xml_array;
 }
 
-/* ----------------------------  Get/Create a Nextcloud Share link ----------------------------*/
+/* ===========================  Get/Create a Nextcloud Share link ===========================*/
 function get_create_nextcloud_share_link($method, $file_path, $nc_file_username, $nc_file_pass, $shareType, $publicUpload, $permissions, $shareWith) {
 	//******************* Send API Request *************************
 	$url = 'ocs/v2.php/apps/files_sharing/api/v1/shares?shareWith='. $shareWith .'&shareType='. $shareType .'&publicUpload='. $publicUpload .'&permissions='. $permissions .'&path='. $file_path;

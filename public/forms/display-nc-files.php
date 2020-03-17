@@ -2,14 +2,12 @@
 
 function display_nc_share_links($shortcode_atts) {
 
-	$nc_file_username = 'Benjamin';
-	$nc_file_pass = 'benjaminforg';
+/* -------------------- Get Credentials Defined in Nextcloud Settings Page -----------------------*/
+	$options = get_option( 'wnus_options', wnus_options_default() );
+	$nc_file_username = isset( $options['file_display_username']) ? sanitize_text_field( $options['file_display_username'] ) : '';
+	$nc_file_pass = isset( $options['file_display_pass']) ? sanitize_text_field( $options['file_display_pass'] ) : '';
 
-
-	// $options = get_option( 'wnus_options', wnus_options_default() );
-	// $ncnc_file_username = 'username';
-	// $ncnc_file_pass = 'pass';
-
+/*-------------------- Define Shortcode Attributes -------------------*/
 	$shortcode_att = shortcode_atts(array('folder-path'=>'',
 																				'hide-files'=>'Readme.md',
 																				),$shortcode_atts);
@@ -20,6 +18,7 @@ function display_nc_share_links($shortcode_atts) {
 		$hide_file_a[$hide_file_s] = $hide_file_s;
 	}
 
+/*--------------------------- Get a List of Files -----------------------*/
 	$url = 'remote.php/dav/files/'. $nc_file_username .'/'. $folder_path;
 	$raw_xml_response = nc_request('PROPFIND', $url, $nc_file_username, $nc_file_pass);
 
@@ -27,6 +26,7 @@ function display_nc_share_links($shortcode_atts) {
 	$xml_array = xml_to_array($xml_response);
 	$result = '';
 
+/*------------------------ Print a Href with file name for each file in the folder other than those specified -----------------------*/
 	foreach($xml_array['response'] as $response){
 		$url_path = str_replace('/cloud/remote.php/dav/files/'. $nc_file_username .'/', '', $response['href']);
 		$file_name = str_replace($folder_path .'/', '', $url_path);
