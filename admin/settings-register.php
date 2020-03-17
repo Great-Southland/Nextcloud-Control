@@ -38,11 +38,18 @@ function wnus_register_settings() {
 	);
 
 	*/
- 
+
 	add_settings_section(
 		'wnus_section_nextcloud_settings',
 		esc_html__('NextCloud Settings', 'wnus'),
 		'wnus_callback_section_nextcloud_settings',
+		'wnus'
+	);
+
+	add_settings_section(
+		'wnus_section_nextcloud_file_display_settings',
+		esc_html__('File Display Settings', 'wnus'),	
+		'wnus_callback_section_nextcloud_file_display_settings',
 		'wnus'
 	);
 
@@ -104,6 +111,27 @@ add_settings_field(
 		'wnus',
 		'wnus_section_nextcloud_settings',
 		[ 'id' => 'create_user_page_url', 'label' => 'Create User Page URL', 'placeholder' => 'https://example.com/page']
+	);
+
+
+
+
+	add_settings_field(
+		'file_display_username',
+		'File Display Username',
+		'wnus_callback_field_text',
+		'wnus',
+		'wnus_section_nextcloud_file_display_settings',
+		[ 'id' => 'file_display_username', 'label' => 'NextCloud File Display Username', 'placeholder' => 'Username']
+	);
+
+	add_settings_field(
+		'file_display_pass',
+		'File Display Password',
+		'wnus_callback_field_pass',
+		'wnus',
+		'wnus_section_nextcloud_file_display_settings',
+		[ 'id' => 'file_display_pass', 'label' => 'NextCloud File Display Password', 'placeholder' => 'Password']
 	);
 
 }
