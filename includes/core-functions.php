@@ -19,8 +19,8 @@ function nc_request($method, $link, $nc_server_username = 'username', $nc_server
 	$nextcloud_server_username = isset( $options['nextcloud_server_username']) ? sanitize_text_field( $options['nextcloud_server_username'] ) : '';
 	$nextcloud_server_pass = isset( $options['nextcloud_server_pass']) ? sanitize_text_field( $options['nextcloud_server_pass'] ) : '';
 
-	$nextcloud_server_username = $nc_server_username = 'username' ? $nextcloud_server_username : $nc_server_username;
-	$nextcloud_server_pass = $nc_server_pass = 'pass' ? $nextcloud_server_pass : $nc_server_pass;
+	$nextcloud_server_username = $nc_server_username == 'username' ? $nextcloud_server_username : $nc_server_username;
+	$nextcloud_server_pass = $nc_server_pass == 'pass' ? $nextcloud_server_pass : $nc_server_pass;
 
 	$url = 'https://'. $nextcloud_server_username .':'. $nextcloud_server_pass .'@'. $nextcloud_server_url .'/'. $link;
 

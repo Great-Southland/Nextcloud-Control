@@ -8,11 +8,13 @@ function display_nc_share_links($shortcode_atts) {
 	$hide_file = $shortcode_att['hide-file'];
 
 
-	$url = 'https://Benjamin:benjaminforg@salones-portal.ddns.net/cloud/remote.php/dav/files/Benjamin/'. $folder_path;
-	$args = array( 'method' => 'PROPFIND',
-								 'timeout' => 40000,
-							 );
-	$raw_xml_response = wp_remote_request( $url, $args );
+	$url = 'remote.php/dav/files/Benjamin/'. $folder_path;
+	// $args = array( 'method' => 'PROPFIND',
+	// 							 'timeout' => 40000,
+	// 						 );
+	// $raw_xml_response = wp_remote_request( $url, $args );
+
+	$raw_xml_response = nc_request('PROPFIND', $url, 'Benjamin', 'benjaminforg');
 
 
 
