@@ -25,7 +25,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/form-response/user-group-managment/group-form.php';
 	// Disable Folder Manager because HTTP API Requests currently arn't workign
 	// require_once plugin_dir_path( __FILE__ ) . 'includes/form-response/folder-manager.php';
-	require_once plugin_dir_path( __FILE__ ) . 'includes/forms/frontend-forms.php';
+	require_once plugin_dir_path( __FILE__ ) . 'public/forms/display-nc-files.php';
+	require_once plugin_dir_path( __FILE__ ) . 'public/forms/user-group-forms.php';
 
 
 	// enqueue styles frontend
