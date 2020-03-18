@@ -11,6 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 // --------------------------- Function to send a HTTP request to NC using Credentials/URL stored in Database ----------------------------------
+
 function nc_request($method, $link, $nc_username = 'username', $nc_pass = 'pass', $array_merge = 0, $custom_args = array()){
 
 	// Get details from Database

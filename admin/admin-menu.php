@@ -78,7 +78,8 @@ function wnus_add_menus() {
 		'wnus_create_user_form'
 	);
 
-	// Add folder manager submenu
+//Disable Folder Manager because HTTP API Requests arn't working properly.
+	// // Add folder manager submenu
 	// add_submenu_page(
 	// 	'wnus',
 	// 	'Folder Manager',
