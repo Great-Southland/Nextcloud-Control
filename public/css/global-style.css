@@ -12,27 +12,26 @@
     background: white;
 }
 
-.grid-container {
+.display-files-grid-container {
   display: grid;
   grid-gap: 40px 40px;
   text-align: center;
 }
 
 @media screen and (min-width: 450px) {
-  .grid-container {
+  .display-files-grid-container {
     grid-template-columns:1fr 1fr 1fr;
   }
 }
 
 @media screen and (max-width: 450px) {
-  .grid-container {
+  .display-files-grid-container {
     grid-template-columns:1fr 1fr;
   }
 }
 
-.grid-item:hover {
-    border: solid 2px #811520;
+.display-files-grid-item:hover {
     border-radius: 3px;
-    padding: 1px;
+    padding: 5px;
     transition: 0.3s;
 }

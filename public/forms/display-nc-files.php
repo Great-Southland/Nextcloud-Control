@@ -47,12 +47,12 @@ function display_nc_share_links($shortcode_atts) {
 		$link_preview = $share_url . '/preview';
 		$link_preview_img = '<a href="'. $share_url .'"><img class="nc-file-display-img" src="'. $link_preview . '"></a>';
 // create a div for each file with preview image and share link
-		$user_tr .= '<div class="grid-item">'. $link_preview_img . $share_link_tag .'</div>';
+		$user_tr .= '<div class="display-files-grid-item">'. $link_preview_img . $share_link_tag .'</div>';
 
 	}
 	// wrap for the elments to be displayed in
 	$result = '<div class="display-files-wrap">
-							<div class="grid-container">'
+							<div class="display-files-grid-container">'
 								. $user_tr .
 							'</div>
 						 </div>	';
