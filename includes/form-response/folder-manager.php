@@ -1,4 +1,5 @@
 <?php //Folder Manager Functions
+
 function wnus_folder_manager() {
 
 //---------------------------------- Security Checks --------------------------
@@ -315,3 +316,4 @@ function wnus_folder_manager() {
 	}
 }
 add_action( 'admin_post_wnus_folder_manager_form_response', 'wnus_folder_manager' );
+

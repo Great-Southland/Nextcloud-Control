@@ -17,6 +17,13 @@ function wnus_callback_section_nextcloud_settings() {
 	echo '<p>These settings enable you to customize the NextCloud server settings.</p>';
 
 }
+
+function wnus_callback_section_nextcloud_file_display_settings() {
+
+	echo '<p>Enter Username and Password for File Display. Display a Sharelink for Files/Folders in a Folder Using Shortcode: [list-nc-files] Ysing the folder-path"" Attribute to set Path and hide-files"" Hide 1 or More Files/Folders by Seperating With Comma.</p>';
+
+}
+
 // -------------- callback NextCloud Settings Fields --------------
 
 // callback: text field
