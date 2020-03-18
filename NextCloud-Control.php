@@ -4,7 +4,7 @@ Plugin Name:  NextCloud-Control
 Description:  Control NextCloud Users/Groups, manage Group Folders and display files in NextCloud directory on a WordPress page.
 Plugin URI:   NextCloud-Control
 Author:       David Forg & Benjamin Forg
-Version:      0.2
+Version:      1.0
 Text Domain:  NextCloud-Control
 License:      GPL v2 or later
 License URI:  https://www.gnu.org/licenses/gpl-2.0.txt
