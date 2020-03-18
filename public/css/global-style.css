@@ -12,12 +12,14 @@
     background: white;
 }
 
+/* initialize grid for displaying files*/
 .display-files-grid-container {
   display: grid;
   grid-gap: 40px 40px;
   text-align: center;
 }
 
+/* show 3 files in a row if screensize is above 450px*/
 @media screen and (min-width: 450px) {
   .display-files-grid-container {
     grid-template-columns:1fr 1fr 1fr;
@@ -30,8 +32,14 @@
   }
 }
 
+/* create a border and padding on hover*/
 .display-files-grid-item:hover {
     border-radius: 3px;
     padding: 5px;
     transition: 0.3s;
+}
+
+/* give link a different color*/
+.display-files-item-name {
+    color: #811520;
 }

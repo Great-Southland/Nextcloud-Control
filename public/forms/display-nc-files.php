@@ -43,7 +43,7 @@ function display_nc_share_links($shortcode_atts) {
 		if($current_folder_name == '/'){continue;}
 // Create variables for for the share url preview link and hrefs
 		$share_url = get_nc_share_link($url_path, $nc_file_username, $nc_file_pass);
-		$share_link_tag = '<a href="'. $share_url .'">'. $decoded_file_name .'</a>';
+		$share_link_tag = '<a class="display-files-item-name" href="'. $share_url .'">'. $decoded_file_name .'</a>';
 		$link_preview = $share_url . '/preview';
 		$link_preview_img = '<a href="'. $share_url .'"><img class="nc-file-display-img" src="'. $link_preview . '"></a>';
 // create a div for each file with preview image and share link
