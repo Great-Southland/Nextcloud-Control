@@ -25,18 +25,37 @@ function display_nc_share_links($shortcode_atts) {
 	$xml_response = str_replace('d:', '', $raw_xml_response['body']);
 	$xml_array = xml_to_array($xml_response);
 	$result = '';
+	$share_link = '';
+	$link_preview = '';
+	$user_tr = '';
 
-/*------------------------ Print a Href with file name for each file in the folder other than those specified -----------------------*/
+/*------------------------ Print a Grid item for each response -----------------------*/
 	foreach($xml_array['response'] as $response){
+// define the file path, name and url decode the file name
 		$url_path = str_replace('/cloud/remote.php/dav/files/'. $nc_file_username .'/', '', $response['href']);
 		$file_name = str_replace($folder_path .'/', '', $url_path);
 		$decoded_file_name = urldecode($file_name);
+// variable that leaves te / in front of a file name
+		$current_folder_name = str_replace($folder_path, '', $url_path);
 
+// do not continue if it is trying to list current folder or specied in the shortcode atts
 		if(array_key_exists($decoded_file_name, $hide_file_a)){continue;}
-
+		if($current_folder_name == '/'){continue;}
+// Create variables for for the share url preview link and hrefs
 		$share_url = get_nc_share_link($url_path, $nc_file_username, $nc_file_pass);
-		$result .= '<a href="'. $share_url .'">'. $decoded_file_name .'</a><br>';
+		$share_link_tag = '<a href="'. $share_url .'">'. $decoded_file_name .'</a>';
+		$link_preview = $share_url . '/preview';
+		$link_preview_img = '<a href="'. $share_url .'"><img class="nc-file-display-img" src="'. $link_preview . '"></a>';
+// create a div for each file with preview image and share link
+		$user_tr .= '<div class="grid-item">'. $link_preview_img . $share_link_tag .'</div>';
+
 	}
+	// wrap for the elments to be displayed in
+	$result = '<div class="display-files-wrap">
+							<div class="grid-container">'
+								. $user_tr .
+							'</div>
+						 </div>	';
 
 	return $result;
 } add_shortcode('list-nc-files', 'display_nc_share_links');
