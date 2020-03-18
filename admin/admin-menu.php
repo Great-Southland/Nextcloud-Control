@@ -79,14 +79,14 @@ function wnus_add_menus() {
 	);
 
 	// Add folder manager submenu
-	add_submenu_page(
-		'wnus',
-		'Folder Manager',
-		'Folder Manager',
-		'manage_options',
-		'folder-manager',
-		'wnus_folder_manager_form'
-	);
+	// add_submenu_page(
+	// 	'wnus',
+	// 	'Folder Manager',
+	// 	'Folder Manager',
+	// 	'manage_options',
+	// 	'folder-manager',
+	// 	'wnus_folder_manager_form'
+	// );
 
 
 
