@@ -144,3 +144,20 @@ function get_nc_share_link($file_path, $nc_file_username = 'username', $nc_file_
 	}
 	return $result;
 }
+
+// Add styles for Nextcloud Dashicon and load in the head
+add_action('admin_head', 'nextcloud_icon');
+function nextcloud_icon() {
+  echo '
+    <style>
+		.dashicons-nextcloud {
+		  content: url("'. plugins_url() .'/Nextcloud-Control/images/nextcloud-logo.png");
+		  width: 29px !important;
+		  height: 19px !important;
+		  padding: 6px;
+		  padding-top: 7px;
+		  background-repeat: no-repeat;
+		  background-position: center;
+		}
+    </style>
+'; }
