@@ -58,7 +58,7 @@ if(false === ($display_nextcloud_files = get_transient('display_nextcloud_files'
 							 </div>	';
 
 		//Set Transient
-		set_transient('display_nextcloud_files', $result, DAY_IN_SECONDS);
+		set_transient('display_nextcloud_files', $result, YEAR_IN_SECONDS);
 	} else {
 
 // Get all the variables for the xml_array for PROPFIND
@@ -76,7 +76,7 @@ if(false === ($display_nextcloud_files = get_transient('display_nextcloud_files'
 //if xml_array is not equal to the transiant of the PROPFIND list set PROPFIND to xml_array, delete the file display transiant and restart function from beginning
 		if ($xml_array != get_transient('display_nextcloud_files_list')) {
 
-			set_transient('display_nextcloud_files_list', $xml_array, DAY_IN_SECONDS);
+			set_transient('display_nextcloud_files_list', $xml_array, YEAR_IN_SECONDS);
 			delete_transient('display_nextcloud_files');
 			return display_nc_share_links($shortcode_atts);
 		}
