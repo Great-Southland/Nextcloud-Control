@@ -7,7 +7,7 @@ function wnus_create_user_form_frontend() {
 	$current_user_roles = get_user_roles($current_user_id);
 	//Get all roles of current user with word Leader
 	$current_user_roles_leader = array_contains($current_user_roles, 'Leader');
-	if (!$current_user_roles_leader){
+	if ($current_user_roles_leader){
 
 	// Form Vars
 		$form_action = esc_url( admin_url( 'admin-post.php' ) );
@@ -95,7 +95,7 @@ function wnus_edit_user_form_frontend() {
 	$current_user_roles = get_user_roles($current_user_id);
 	//Get all roles of current user with word Leader
 	$current_user_roles_leader = array_contains($current_user_roles, 'Leader');
-	if (!$current_user_roles_leader){
+	if ($current_user_roles_leader){
 	// Set variables
 			if (!isset($_GET['email-login']) && !isset($_GET['display-name']) && !isset($_GET['user-email']) && !isset($_GET['user-password']) && !isset($_GET['user-id'])) {
 				$user_info = wp_get_current_user();
@@ -216,7 +216,7 @@ function wnus_user_form_frontend() {
 	$current_user_roles = get_user_roles($current_user_id);
 	//Get all roles of current user with word Leader
 	$current_user_roles_leader = array_contains($current_user_roles, 'Leader');
-	if (!$current_user_roles_leader){
+	if ($current_user_roles_leader){
 		//-------------------- Get Current User Info ------------------------
 			// Get Current Users Roles
 			$current_user_info = wp_get_current_user();
@@ -418,7 +418,7 @@ function wnus_group_form_frontend() {
 	$current_user_roles = get_user_roles($current_user_id);
 	//Get all roles of current user with word Leader
 	$current_user_roles_leader = array_contains($current_user_roles, 'Leader');
-	if (!$current_user_roles_leader){
+	if ($current_user_roles_leader){
 
 		// -------------------------- Get Current User Info ------------------------
 		// Get Current Users Roles
