@@ -144,3 +144,10 @@ function get_nc_share_link($file_path, $nc_file_username = 'username', $nc_file_
 	}
 	return $result;
 }
+
+//Function which adds "read_private_posts" capability
+function add_read_private_posts($role) {
+	// get the the role object
+	$role_object = get_role( $role );
+	$role_object->add_cap('read_private_posts');
+}

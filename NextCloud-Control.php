@@ -35,6 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 // ----------------- include plugin dependencies: admin only ----------------
 if ( is_admin() ) {
 
+
 // register menus
 	require_once plugin_dir_path( __FILE__ ) . 'admin/admin-menu.php';
 
@@ -48,7 +49,7 @@ if ( is_admin() ) {
 	require_once plugin_dir_path( __FILE__ ) . 'admin/enqueue-admin.php';
 
 // Forms
-  require_once plugin_dir_path( __FILE__ ) . 'admin/includes/forms/admin-forms.php';
+    require_once plugin_dir_path( __FILE__ ) . 'admin/includes/forms/admin-forms.php';
 	require_once plugin_dir_path( __FILE__ ) . 'admin/includes/admin-notices/admin-notices.php';
 }
 
