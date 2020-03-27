@@ -162,7 +162,6 @@ function nextcloud_icon() {
     </style>
 '; }
 
-// Add read_private_posts Cap
 function add_read_private_posts($role) {
 	// get the the role object
 	$role_object = get_role( $role );
