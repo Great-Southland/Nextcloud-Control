@@ -44,7 +44,7 @@ function wnus_add_menus() {
 		'manage_options',
 		'wnus',
 		'wnus_display_settings_page',
-		'dashicons-admin-generic',
+		'dashicons-nextcloud',
 		null
 	);
 
