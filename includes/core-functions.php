@@ -145,9 +145,28 @@ function get_nc_share_link($file_path, $nc_file_username = 'username', $nc_file_
 	return $result;
 }
 
+<<<<<<< HEAD
 //Function which adds "read_private_posts" capability
 function add_read_private_posts($role) {
 	// get the the role object
 	$role_object = get_role( $role );
 	$role_object->add_cap('read_private_posts');
 }
+=======
+// Add styles for Nextcloud Dashicon and load in the head
+add_action('admin_head', 'nextcloud_icon');
+function nextcloud_icon() {
+  echo '
+    <style>
+		.dashicons-nextcloud {
+		  content: url("'. plugins_url() .'/Nextcloud-Control/images/nextcloud-logo.png");
+		  width: 29px !important;
+		  height: 19px !important;
+		  padding: 6px;
+		  padding-top: 7px;
+		  background-repeat: no-repeat;
+		  background-position: center;
+		}
+    </style>
+'; }
+>>>>>>> 3cea064565f09cc44d2a6fbcd0d839e81474a27f
