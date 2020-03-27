@@ -9,7 +9,7 @@ function wnus_create_user_form_frontend() {
 	$current_user_roles_leader = array_contains($current_user_roles, 'Leader');
 	if ($current_user_roles_leader){
 
-	// Form Vars
+	// Form Variables
 		$form_action = esc_url( admin_url( 'admin-post.php' ) );
 		$form_nonce = wp_create_nonce( 'wnus-nonce' );
 		$redirect_url = strtok($_SERVER["REQUEST_URI"],'?');
