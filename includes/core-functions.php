@@ -162,12 +162,3 @@ function nextcloud_icon() {
 		}
     </style>
 '; }
-
-
-//Function which adds "read_private_posts" capability
-
-function add_read_private_posts($role) {
-	// get the the role object
-	$role_object = get_role( $role );
-	$role_object->add_cap('read_private_posts');
-}

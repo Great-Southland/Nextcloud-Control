@@ -27,8 +27,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	// require_once plugin_dir_path( __FILE__ ) . 'includes/form-response/folder-manager.php';
 	require_once plugin_dir_path( __FILE__ ) . 'public/forms/display-nc-files.php';
 	require_once plugin_dir_path( __FILE__ ) . 'public/forms/user-group-forms.php';
-	//Include init.php
-	require_once plugin_dir_path( __FILE__ ) . 'init.php';
 	// enqueue styles frontend
 	require_once plugin_dir_path( __FILE__ ) . 'public/enqueue-public.php';
 
