@@ -9,5 +9,5 @@ $current_user_roles = get_user_roles($current_user_id);
 $current_user_roles_leader = array_contains($current_user_roles, 'Leader');
 //Loop through $current_user_roles_leader and add ead_private_posts cap
 foreach($current_user_roles_leader as $role){
-    add_read_private_posts($role)
+    add_read_private_posts($role);
 }
