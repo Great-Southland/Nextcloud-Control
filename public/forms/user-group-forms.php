@@ -91,11 +91,6 @@ function wnus_create_user_form_frontend() {
 add_shortcode('create-user', 'wnus_create_user_form_frontend');
 // Add Edit User Page
 function wnus_edit_user_form_frontend() {
-	$current_user_id = get_current_user_id();
-	$current_user_roles = get_user_roles($current_user_id);
-	//Get all roles of current user with word Leader
-	$current_user_roles_leader = array_contains($current_user_roles, 'Leader');
-	if ($current_user_roles_leader){
 	// Set variables
 			if (!isset($_GET['email-login']) && !isset($_GET['display-name']) && !isset($_GET['user-email']) && !isset($_GET['user-password']) && !isset($_GET['user-id'])) {
 				$user_info = wp_get_current_user();
@@ -193,20 +188,6 @@ function wnus_edit_user_form_frontend() {
 				<input type="submit" name="update-user-submit" class="button button-primary" value="Update">
 			</form>
 		</div>';
-	}else{
-		$output = '
-		<div class="section-inner thin error404-content">
-			<h1 class="entry-title">Page Not Found</h1>
-			<div class="intro-text"><p>The page you were looking for could not be found. It might have been removed, renamed, or did not exist in the first place.</p></div>
-			<form role="search" aria-label="404 not found" method="get" class="search-form" action="http://localhost/~davidforg/SitesWordpress/wordpress/">
-				<label for="search-form-2">
-					<span class="screen-reader-text">Search for:</span>
-					<input type="search" id="search-form-2" class="search-field" placeholder="Search …" value="" name="s">
-				</label>
-				<input type="submit" class="search-submit" value="Search">
-			</form>
-		</div>';
-	}
 	return $output;
  }
 add_shortcode('edit-user', 'wnus_edit_user_form_frontend');
