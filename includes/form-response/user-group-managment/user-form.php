@@ -54,10 +54,10 @@ function wnus_user_form() {
 			// Get User's Login username
 			$user_login = $user_meta->user_login;
 			$user_id = $id;
-  		$user_email = $user_meta->user_email;
+  			$user_email = $user_meta->user_email;
 
       // Get Role
-      $wp_role = $_POST['wp-roles'];
+      		$wp_role = $_POST['wp-roles'];
 			$nc_group = $_POST['wp-roles'];
 			if ($nc_group == 'administrator'){
 				$nc_group = 'admin';
@@ -66,7 +66,7 @@ function wnus_user_form() {
 			$nc_user_login = $user_login;
 
   	  // get the user id
-  		$user_id = email_exists( $user_email );
+  			$user_id = email_exists( $user_email );
 
 
   		//  If user id exists
@@ -421,9 +421,6 @@ function create_user_add_user() {
 		// check if user is allowed
 		// if ( ! is_user_logged_in() ) wp_die();
 
-
-
-
 		// get submitted username
 		if ( isset( $_POST['username'] ) && ! empty( $_POST['username'] ) ) {
 
@@ -434,9 +431,6 @@ function create_user_add_user() {
 			$username = '';
 
 		}
-
-
-
 
 		// get submitted email
 		if ( isset( $_POST['email'] ) && ! empty( $_POST['email'] ) ) {
@@ -449,9 +443,6 @@ function create_user_add_user() {
 
 		}
 
-
-
-
 		// get submitted password
 		if ( isset( $_POST['password'] ) && ! empty( $_POST['password'] ) ) {
 
@@ -462,9 +453,6 @@ function create_user_add_user() {
 			$password = wp_generate_password();
 
 		}
-
-
-
 
 		// set user_id variable
 		$user_id = '';
@@ -478,9 +466,6 @@ function create_user_add_user() {
 			$user_id = esc_html__( 'The user already exists.', 'wnus' );
 
 		}
-
-
-
 
 		// check non-empty values
 		if ( empty( $username ) || empty( $email ) ) {
@@ -535,10 +520,6 @@ function create_user_add_user() {
       $nc_create_user_response = $user_id;
     }
 
-
-
-
-
 		// Create Wordpress user
 		if ( empty( $user_id ) & $nc_create_user_response == '100') {
 
@@ -553,12 +534,22 @@ function create_user_add_user() {
 				$user_id = $user_id->get_error_message();
 
 			}else {
+				//************ Add User to Group Member *************
+				//Add user to group NextCloud
+				$user_group = 'Member';
+				$nc_response = nc_request('POST', '/ocs/v1.php/cloud/users/'. $username .'/groups?groupid='. $user_group);
+				//Add user to group WordPress
+				// Create an instance of WP_user Class
+				$u = new WP_User($user_id);
+				// Add role
+				$u->add_role( $user_group );
 
-				// email password
-				$subject = 'Welcome to Lones!';
-				$message = 'You can log in using username: '. $username .' and password: ' . $password;
-
-				wp_mail( $email, $subject, $message );
+				//************ Send Welcome Email **************
+				// // email password
+				// $subject = 'Welcome to Lones!';
+				// $message = 'You can log in using username: '. $username .' and password: ' . $password;
+				//
+				// wp_mail( $email, $subject, $message );
 			}
 
 		}
