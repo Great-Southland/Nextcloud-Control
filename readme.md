@@ -1,4 +1,4 @@
-=== Plugin Name ===
+=== Nextcloud-Control ===
 
 Plugin Name:  NextCloud Control
 Description:  Control NextCloud Users/Groups and display files in NextCloud directory on a WordPress page.
