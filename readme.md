@@ -1,15 +1,3 @@
-=== Nextcloud-Control ===
-
-Plugin Name:  NextCloud Control
-Description:  Control NextCloud Users/Groups and display files in NextCloud directory on a WordPress page.
-Plugin URI:   https://github.com/David-Forg/Nextcloud-Control/
-Author:       Great-Southland
-Version:      2.0
-Text Domain:  Nextcloud-Control
-Domain Path:  /languages
-License:      GPL v2 or later
-License URI:  https://www.gnu.org/licenses/gpl-2.0.txt
-
 Here is a short description of the plugin.  This should be no more than 150 characters.  No markup here.
  
 == Description ==
@@ -50,16 +38,6 @@ e.g.
 1. Use the Settings->Plugin Name screen to configure the plugin
 1. (Make your instructions match the desired user flow for activating and installing your plugin. Include any steps that might be needed for explanatory purposes)
 
-
-== Frequently Asked Questions ==
-
-= A question that someone might have =
-
-An answer to that question.
-
-= What about foo bar? =
-
-Answer to foo bar dilemma.
 
 == Screenshots ==
 
