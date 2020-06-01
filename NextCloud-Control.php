@@ -2,7 +2,7 @@
 /*
 Plugin Name:  NextCloud-Control
 Description:  Control NextCloud Users/Groups and display files in NextCloud directory on a WordPress page.
-Plugin URI:   NextCloud-Control
+Plugin URI:   github.com/Great-Southland/Nextcloud-Control/
 Author:       Great-Southland
 Version:      2.0
 Text Domain:  NextCloud-Control
