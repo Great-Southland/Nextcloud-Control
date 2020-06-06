@@ -61,7 +61,7 @@ function wnus_create_user_form_frontend() {
 							<input class="regular-text" type="text" size="40" name="email" placeholder="Email" id="email">
 						</p>
 						<p>
-							<label for="password">Password</label><br />
+							<label for="password">Password, Generated automatically if left blank</label><br />
 							<input class="regular-text" type="text" size="40" name="password" placeholder="Password" id="password">
 						</p>
 						<p>The user will receive this information via email.</p>

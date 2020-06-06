@@ -545,11 +545,104 @@ function create_user_add_user() {
 				$u->add_role( $user_group );
 
 				//************ Send Welcome Email **************
-				// // email password
-				// $subject = 'Welcome to Lones!';
-				// $message = 'You can log in using username: '. $username .' and password: ' . $password;
-				//
-				// wp_mail( $email, $subject, $message );
+				$email_subject = 'New Account with SA Lones Portal';
+
+				$email_body = '<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <!-- Styles -->
+    <style media="screen">
+        header {
+            background-color: rgb(129,21,32);
+            padding: 1rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        body{
+            background-color: rgb(245, 245, 245);
+            margin: 0;
+            font-family: "Inter var", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, sans-serif !important;
+        }
+        footer p {
+            text-align: center;
+            font-weight: 200;
+            font-size: 0.8rem;
+            color: grey;
+        }
+        h1 {
+            margin: 3rem;
+            font-weight: 400;
+            text-align: center;
+        }
+        a {
+            text-decoration: none;
+            color: rgb(190,40,50);
+            font-weight: 600;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .header-logo {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            height: auto;
+            width: 15rem;
+        }
+        .main {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: white;
+            box-shadow: 4px 4px 10px #888888;
+            padding: 2rem;
+            margin-bottom: 10rem;
+            width: 40rem;
+            min-height: 20rem;
+        }
+        .main p {
+            color: grey;
+        }
+        .main .portal-btn {
+            display: block;
+            background-color: rgb(129,21,32);
+            padding: 1rem;
+            margin-top: 3rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .main .portal-btn a {
+            text-decoration: none;
+            font-size: 1rem;
+            color: white;
+        }
+    </style>
+    <!-- Header -->
+    <header>
+        <img class="header-logo" src="https://salones-portal.ddns.net/wp-content/uploads/2020/04/cropped-Scout-Lone-Venturer-Logo-Combination.png" >
+    </header>
+    <body>
+        <h1>Welcome aboard</h1>
+        <div class="main">
+            <p>An Account has been created for you at SA Lones Portal You can login using the following credentials:<br><br>
+            Username: '. $username .'<br>
+            Password: '. $password .'<br><br>
+            Please change your password as soon as possible.<br><br>
+            You can find a guide on how to use the site <a href="https://salones-portal.ddns.net/cloud/index.php/s/p2bztAFCGWDrTy9">here</a><br>
+            If you have any questions you can contact us at <a href="mailto:saloneventurers@gmail.com">saloneventurers@gmail.com</a></p>
+
+            <button class="portal-btn" type="button"><a href="https://salones-portal.ddns.net">Go to SA Lones Portal</a></button>
+        </div>
+    </body>
+    <footer><p>This is an automatically sent email, please do not reply.</p></footer>
+</html>';
+
+				               $email_headers = array('Content-Type: text/html; charset=UTF-8', 'Bcc: saloneventurers@gmail.com', 'Bcc: 164944@sa.scouts.com.au');
+
+				                wp_mail($email, $email_subject, $email_body, $email_headers);
 			}
 
 		}
@@ -897,3 +990,4 @@ function wnus_update_user() {
 
 }
 add_action( 'admin_post_wnus_update_user_form_response', 'wnus_update_user' );
+
